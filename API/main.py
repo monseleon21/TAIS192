@@ -33,3 +33,12 @@ def obtenerTareas(tareas_id: int):
         if ta["id"] == tareas_id:
             return {"La tarea encontrada es": ta}
     raise HTTPException(status_code=404, detail="No se encontró la tarea")
+
+#Endpoint Crear una nueva tarea
+@app.post('/tareas', tags=['Lista de Tareas'])
+def crearTarea(tarea:dict):
+    for ta in tareas:
+        if ta ["id"] == tarea.get("id"):
+            raise HTTPException(status_code=400, detail= "El id de esa tarea ya existe, agregue otro ID")
+    tareas.append(tarea)
+    return tarea

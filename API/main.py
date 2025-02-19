@@ -42,3 +42,12 @@ def crearTarea(tarea:dict):
             raise HTTPException(status_code=400, detail= "El id de esa tarea ya existe, agregue otro ID")
     tareas.append(tarea)
     return tarea
+
+#Enpoint Actualizar una tarea existente
+@app.put('/tareas', tags=["Lista de tareas"])
+def actualizarTareas(tareas_id: int, tareas_actualizadas: dict):
+    for i, ta in enumerate(tareas):
+        if ta["id"] == tareas_id:
+            tareas[i].update(tareas_actualizadas)
+            return {"Mensaje": "Tarea actualizada correctamente", "tarea": tareas[i]}
+    raise HTTPException(status_code=404, detail="Tarea no encontredo") 

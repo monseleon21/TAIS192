@@ -1,7 +1,16 @@
 from fastapi import FastAPI, HTTPException
 from typing import Optional
-
+from fastapi.openapi.docs import get_swagger_ui_html
 app= FastAPI()
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui():
+    return get_swagger_ui_html(
+        openapi_url="/openapi.json",
+        title="📌 API de Gestión de Tareas",
+        swagger_favicon="https://upload.wikimedia.org/wikipedia/commons/7/7e/FastAPI_logo.svg",
+        swagger_ui_parameters={"theme": "dark"})
+
+
 
 
 

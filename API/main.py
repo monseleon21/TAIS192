@@ -23,11 +23,6 @@ tareas =[
     {"id": 5, "titulo": "Hacer mi tarea", "descripcion": "tarea de investigacion de reingieneria", "vencimiento": "24-03-25", "estado": "completada"}
 ]
 
-#Endpoit home 
-@app.get('/', tags=['Hola mundo'])
-def home():
-    return {'hello': 'world API TAREA'}
-
 
 #Endpoint get obetener todas las tareas
 @app.get('/todoTareas', tags=['Lista de Tareas'])
@@ -53,7 +48,7 @@ def crearTarea(tarea:dict):
     return tarea
 
 #Enpoint Actualizar una tarea existente
-@app.put('/tareas', tags=['Lista de tareas'])
+@app.put('/tareas/{tareas_id}', tags=['Lista de tareas'])
 def actualizarTareas(tareas_id: int, tareas_actualizadas: dict):
     for i, ta in enumerate(tareas):
         if ta["id"] == tareas_id:

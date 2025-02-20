@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
-from typing import Optional
+from typing import Optional, List
+from pydantic import BaseModel
 
 app = FastAPI(
     title='Mi primera API 192',
@@ -7,12 +8,19 @@ app = FastAPI(
     version='1.0.1'
 )
 
-# Lista de usuarios
+#modelo
+class ModeloUsuario(BaseModel):
+    id:int
+    nombre:str
+    edad:int
+    correo:str
+
+#BD ficticia
 usuarios = [
-    {"id": 1, "nombre": "monchis", "edad": 22},
-    {"id": 2, "nombre": "alejandro", "edad": 24},
-    {"id": 3, "nombre": "maria", "edad": 20},
-    {"id": 4, "nombre": "felix", "edad": 23}
+    {"id": 1, "nombre": "monchis", "edad": 22, "correo": "example@example.com"},
+    {"id": 2, "nombre": "alejandro", "edad": 24, "correo": "example2@example.com"},
+    {"id": 3, "nombre": "maria", "edad": 20,"correo": "example3@example.com"},
+    {"id": 4, "nombre": "felix", "edad": 23, "correo": "example4@example.com"}
 ]
 
 # Endpoint home
@@ -20,11 +28,16 @@ usuarios = [
 def home():
     return {'hello': 'world FastAPI'}
 
-# Endpoint CONSULTA TODOS
+#Enpoint CONSULTA TODDOS
+@app.get('/todoUsuarios' ,response_model= List[ModeloUsuario] ,tags=['Operaciones CRUD'])
+def leerUsuario():
+  return {"Los usuarios registrados son": usuarios}
+
+""" # Endpoint CONSULTA TODOS
 @app.get('/todoUsuarios', tags=['Operaciones CRUD'])
 def leerUsuarios():
   return {"Los usuarios registrados son": usuarios}
-
+ """
 # Endpoint Agregar Usuarios Post
 @app.post('/usuario', tags=['Operaciones CRUD'])
 def agregarUsuario(usuario:dict):
@@ -55,4 +68,4 @@ def deleteUsuario(user_id:int):
         else:
              raise HTTPException(status_code=404, detail="Usuario no encontrado")
     
-        
+                

@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from typing import Optional, List
 from modelsPydantic import ModeloUsuario, modeloAuth
 from genToken import createToken
+from middlewares import BearerJWT
 
 app = FastAPI(
     title='Mi primera API 192',
@@ -35,7 +36,7 @@ def login(autorizacion:modeloAuth):
         return{"Aviso":"Usuario no autorizado"}
 
 #Enpoint CONSULTA TODDOS
-@app.get('/todoUsuarios' ,response_model= List[ModeloUsuario] ,tags=['Operaciones CRUD'])
+@app.get('/todoUsuarios', dependencies=[Depends(BearerJWT())] ,response_model= List[ModeloUsuario] ,tags=['Operaciones CRUD'])
 def leerUsuario():
   return usuarios
 
